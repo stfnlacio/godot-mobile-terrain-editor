@@ -45,6 +45,10 @@ var _noise_amp: float = 1.0
 @onready var _mode_smooth: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/ModeGrid/Smooth
 @onready var _mode_flatten: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/ModeGrid/Flatten
 @onready var _mode_paint: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/ModeGrid/Paint
+@onready var _layer_l0: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid/L0
+@onready var _layer_l1: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid/L1
+@onready var _layer_l2: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid/L2
+@onready var _layer_l3: Button = $Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid/L3
 @onready var _radius_slider: HSlider = $Panel/Margin/VBox/Scroll/Content/BrushBody/RadiusRow/Slider
 @onready var _radius_label: Label = $Panel/Margin/VBox/Scroll/Content/BrushBody/RadiusRow/Value
 @onready var _strength_slider: HSlider = $Panel/Margin/VBox/Scroll/Content/BrushBody/StrengthRow/Slider
@@ -154,6 +158,15 @@ func _connect_signals() -> void:
 	_mode_flatten.pressed.connect(func(): _set_mode(3))
 	if _mode_paint:
 		_mode_paint.pressed.connect(func(): _set_mode(4))
+	if _layer_l0:
+		_layer_l0.pressed.connect(func(): set_paint_layer(0))
+	if _layer_l1:
+		_layer_l1.pressed.connect(func(): set_paint_layer(1))
+	if _layer_l2:
+		_layer_l2.pressed.connect(func(): set_paint_layer(2))
+	if _layer_l3:
+		_layer_l3.pressed.connect(func(): set_paint_layer(3))
+	_update_layer_buttons()
 
 	_radius_slider.value_changed.connect(_on_radius)
 	_strength_slider.value_changed.connect(_on_strength)
@@ -239,7 +252,16 @@ func _emit_brush() -> void:
 
 func set_paint_layer(layer: int) -> void:
 	_paint_layer = clampi(layer, 0, 3)
+	_update_layer_buttons()
 	_emit_brush()
+
+func _update_layer_buttons() -> void:
+	var layers := [_layer_l0, _layer_l1, _layer_l2, _layer_l3]
+	for i in range(layers.size()):
+		if layers[i] == null:
+			continue
+		layers[i].button_pressed = (i == _paint_layer)
+		layers[i].modulate = Color(0.45, 0.85, 1.0) if i == _paint_layer else Color.WHITE
 
 func _emit_terrain() -> void:
 	terrain_settings_changed.emit({

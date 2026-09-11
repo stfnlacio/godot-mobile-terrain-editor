@@ -147,10 +147,8 @@ func _init_data() -> void:
 func _sync_splat_texture() -> void:
 	if _data == null or _data.splat_image == null:
 		return
-	if _splat_tex == null:
-		_splat_tex = ImageTexture.create_from_image(_data.splat_image)
-	else:
-		_splat_tex.update(_data.splat_image)
+	# Always rebuild so the GPU sees the latest paint strokes
+	_splat_tex = ImageTexture.create_from_image(_data.splat_image)
 	splatmap_image = _data.splat_image
 
 func _splat_tex_array() -> Array:

@@ -102,6 +102,45 @@ custom_minimum_size = Vector2(0, 56)
 toggle_mode = true
 text = "Paint"
 
+[node name="LayerLabel" type="Label" parent="Panel/Margin/VBox/Scroll/Content/BrushBody"]
+layout_mode = 2
+text = "Paint Layer (needs 2+ textures)"
+
+[node name="LayerGrid" type="GridContainer" parent="Panel/Margin/VBox/Scroll/Content/BrushBody"]
+layout_mode = 2
+columns = 4
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="L0" type="Button" parent="Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+toggle_mode = true
+button_pressed = true
+text = "L0"
+
+[node name="L1" type="Button" parent="Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+toggle_mode = true
+text = "L1"
+
+[node name="L2" type="Button" parent="Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+toggle_mode = true
+text = "L2"
+
+[node name="L3" type="Button" parent="Panel/Margin/VBox/Scroll/Content/BrushBody/LayerGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+toggle_mode = true
+text = "L3"
+
 [node name="RadiusRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Content/BrushBody"]
 layout_mode = 2
 
