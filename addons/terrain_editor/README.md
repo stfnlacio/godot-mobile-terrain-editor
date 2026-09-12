@@ -45,7 +45,7 @@ Lightweight 3D terrain sculpting plugin and demo for Godot 4 — tuned for the G
 
 ## Proton Scatter (optional)
 
-1. Install [Proton Scatter](https://github.com/HungryProton/proton_scatter)
+1. Install [Proton Scatter](https://codeberg.org/hungryproton/proton_scatter)
 2. Copy:
    `addons/terrain_editor/integrations/proton_scatter/project_on_terrain_editor.gd`
    → `addons/proton_scatter/src/modifiers/project_on_terrain_editor.gd`
