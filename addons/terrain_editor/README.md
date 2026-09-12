@@ -52,7 +52,7 @@ Lightweight 3D terrain sculpting plugin and demo for Godot 4 — tuned for the G
 3. Restart the editor
 4. On a Scatter node, add modifier **Project On Terrain Editor**
 
-See [addons/terrain_editor/integrations/proton_scatter/README.md](addons/terrain_editor/integrations/proton_scatter/README.md)
+See [addons/terrain_editor/integrations/proton_scatter/README.md](https://github.com/stfnlacio/godot-mobile-terrain-editor/blob/main/addons/terrain_editor/integrations/proton_scatter/README.md)
 
 ## Architecture
 
