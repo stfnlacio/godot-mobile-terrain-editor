@@ -497,6 +497,57 @@ func get_average_height() -> float:
 		return _data.get_average_height()
 	return 0.0
 
+
+## World XZ → height (global Y). Uses bilinear sampling when possible.
+func sample_height_at_global(global_pos: Vector3) -> float:
+	if _data == null:
+		return global_position.y
+	var local := global_transform.affine_inverse() * global_pos
+	return global_position.y + _sample_height_local_bilinear(local.x, local.z)
+
+
+## Approximate surface normal in global space (Y-up bias).
+func sample_normal_at_global(global_pos: Vector3) -> Vector3:
+	if _data == null:
+		return Vector3.UP
+	var local := global_transform.affine_inverse() * global_pos
+	var eps := maxf(_data.pixel_world_size, 0.05)
+	var h_l := _sample_height_local_bilinear(local.x - eps, local.z)
+	var h_r := _sample_height_local_bilinear(local.x + eps, local.z)
+	var h_d := _sample_height_local_bilinear(local.x, local.z - eps)
+	var h_u := _sample_height_local_bilinear(local.x, local.z + eps)
+	var n_local := Vector3(h_l - h_r, 2.0 * eps, h_d - h_u).normalized()
+	return (global_transform.basis * n_local).normalized()
+
+
+## True if XZ lies inside the terrain footprint (local 0..world_scale).
+func is_inside_bounds_global(global_pos: Vector3) -> bool:
+	if _data == null:
+		return false
+	var local := global_transform.affine_inverse() * global_pos
+	return local.x >= 0.0 and local.z >= 0.0 \
+		and local.x <= world_scale.x and local.z <= world_scale.z
+
+
+func _sample_height_local_bilinear(lx: float, lz: float) -> float:
+	if _data == null or _data.height_image == null:
+		return 0.0
+	var size_f := float(_data.size)
+	var u := (lx / world_scale.x) * size_f
+	var v := (lz / world_scale.z) * size_f
+	var x0 := int(floor(u))
+	var z0 := int(floor(v))
+	var tx := u - float(x0)
+	var tz := v - float(z0)
+	var h00 := _data.get_height(x0, z0)
+	var h10 := _data.get_height(x0 + 1, z0)
+	var h01 := _data.get_height(x0, z0 + 1)
+	var h11 := _data.get_height(x0 + 1, z0 + 1)
+	var h0 := lerpf(h00, h10, tx)
+	var h1 := lerpf(h01, h11, tx)
+	return lerpf(h0, h1, tz) * world_scale.y
+
+
 func save_heightmap(path: String = "res://terrain_heightmap.exr") -> void:
 	if _data == null:
 		return
