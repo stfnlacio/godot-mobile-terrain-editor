@@ -83,10 +83,6 @@ addons/terrain_editor/
 - Mesh rebuilds are capped (`mesh_rebuild_interval`, default 3 frames)
 - No deep Node trees; chunks are flat MeshInstance3D children
 
-## Plugin docs
-
-See [addons/terrain_editor/README.md](addons/terrain_editor/README.md)
-
 ## License
 
 MIT — Stefan Lacio, 2026
